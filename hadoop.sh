@@ -21,7 +21,6 @@ function generate_config() {
 	# Create a new hadoop-site.xml for this job in the grid.
 	cp $TEMPLATE $CONF/core-site.xml
 
-
     # Escape for sed replacement
     # See: http://stackoverflow.com/questions/407523/escape-a-string-for-sed-search-pattern
 
@@ -56,8 +55,6 @@ function hadoop_start_master() {
     $HADOOP_HOME/bin/hadoop --config $CONF namenode -format
 
     barrier # initialized
-
-    echo "THE MASTER PASSED THE SECOND BARRIER"
 
 	$HADOOP_HOME/bin/hadoop --config $CONF namenode             & echo $! >>pids_$SGE_TASK_ID
 	$HADOOP_HOME/bin/hadoop --config $CONF secondarynamenode    & echo $! >>pids_$SGE_TASK_ID
