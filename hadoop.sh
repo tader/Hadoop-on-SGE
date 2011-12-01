@@ -28,7 +28,6 @@ function generate_config() {
     # Escape for sed replacement
     # See: http://stackoverflow.com/questions/407523/escape-a-string-for-sed-search-pattern
 
-    HOSTNAME="$(hostname -i |grep -v '^127' |head -n 1)"
     _HOSTNAME=$(echo "${HOSTNAME}"|sed -e 's/\(\/\|\\\|&\)/\\&/g')
     _HADOOP_TEMP_DIR=$(echo "${HADOOP_TEMP_DIR}"|sed -e 's/\(\/\|\\\|&\)/\\&/g')
 
@@ -42,11 +41,11 @@ function generate_config() {
 }
 
 function generate_masters_file() {
-    hostname -i |grep -v '^127' |head -n 1 >$HADOOP_MASTERS
+    echo "$HOSTNAME" >$HADOOP_MASTERS
 }
 
 function generate_slaves_file() {
-    hostname -i |grep -v '^127' |head -n 1 >>$HADOOP_SLAVES
+    echo "$HOSTNAME" >>$HADOOP_SLAVES
 }
 
 function hadoop_start_master() {
