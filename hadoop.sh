@@ -60,9 +60,13 @@ function hadoop_start_master() {
 
     barrier # initialized
 
-	$HADOOP_HOME/bin/hadoop --config $CONF namenode             & echo $! >>pids_$SGE_TASK_ID
-	$HADOOP_HOME/bin/hadoop --config $CONF secondarynamenode    & echo $! >>pids_$SGE_TASK_ID
-	$HADOOP_HOME/bin/hadoop --config $CONF jobtracker           & echo $! >>pids_$SGE_TASK_ID
+    hadoop_really_start_master
+}
+
+function hadoop_really_start_master() {
+	$HADOOP_HOME/bin/hadoop --config $CONF namenode             & echo $! >>"$BASE_PATH/pids_$SGE_TASK_ID"
+	$HADOOP_HOME/bin/hadoop --config $CONF secondarynamenode    & echo $! >>"$BASE_PATH/pids_$SGE_TASK_ID"
+	$HADOOP_HOME/bin/hadoop --config $CONF jobtracker           & echo $! >>"$BASE_PATH/pids_$SGE_TASK_ID"
 }
 
 function hadoop_start_slave() {
@@ -72,8 +76,12 @@ function hadoop_start_slave() {
 
     barrier # initialized
 
-	$HADOOP_HOME/bin/hadoop --config $CONF datanode             & echo $! >>pids_$SGE_TASK_ID
-	$HADOOP_HOME/bin/hadoop --config $CONF tasktracker          & echo $! >>pids_$SGE_TASK_ID
+    hadoop_really_start_slave
+}
+
+function hadoop_really_start_slave() {
+	$HADOOP_HOME/bin/hadoop --config $CONF datanode             & echo $! >>"$BASE_PATH/pids_$SGE_TASK_ID"
+	$HADOOP_HOME/bin/hadoop --config $CONF tasktracker          & echo $! >>"$BASE_PATH/pids_$SGE_TASK_ID"
 }
 
 hadoop_start() {
@@ -87,7 +95,7 @@ hadoop_start() {
 
 hadoop_stop() {
     KILLED=0
-    for PID in `cat pids_$SGE_TASK_ID`
+    for PID in `cat "$BASE_PATH/pids_$SGE_TASK_ID"`
     do
         if [ -d "/proc/$PID" ]; then
             kill ${PID}
@@ -98,7 +106,7 @@ hadoop_stop() {
     if [ "$KILLED" -ne "0" ]; then
         for SLEEP in 1 2 3 4 5 6 7 8 9 10; do
             KILLED=0
-            for PID in `cat pids_$SGE_TASK_ID`
+            for PID in `cat "$BASE_PATH/pids_$SGE_TASK_ID"`
             do
                 if [ -d "/proc/$PID" ]; then
                     if [ "$SLEEP" -gt "7" ]; then
@@ -117,6 +125,7 @@ hadoop_stop() {
         done
     fi
 
-    rm pids_$SGE_TASK_ID
-    rm -rf $HADOOP_TEMP_DIR
+    rm "$BASE_PATH/pids_$SGE_TASK_ID"
+    rm -rf "$HADOOP_TEMP_DIR"
+    rm -rf "/tmp/Jetty*"
 }
