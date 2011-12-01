@@ -1,16 +1,14 @@
 #!/bin/sh
 #$ -cwd
 #$ -N "Hadoop Slaves"
-#$ -t 1-3
+#$ -t 1-5
 
 set -e
-
-export SGE_TASK_ID=$(($SGE_TASK_ID+100000))
 
 . $SGE_O_WORKDIR/settings.sh
 . $SGE_O_WORKDIR/hadoop.sh
 
-hadoop_really_start_slaves
+hadoop_really_start_slave
 
 trap hadoop_stop INT TERM EXIT
     while [ ! -e "$SHUTDOWN_PLEASE" ]; do
