@@ -1,7 +1,7 @@
 #!/bin/sh
 #$ -cwd
 #$ -N "Hadoop Slaves"
-#$ -t 1-5
+#$ -t 1-13
 
 set -e
 

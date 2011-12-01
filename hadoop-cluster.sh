@@ -1,7 +1,7 @@
 #!/bin/sh
 #$ -cwd
 #$ -N Hadoop
-#$ -t 1-3
+#$ -t 1-21
 
 set -e
 
