@@ -10,12 +10,11 @@ set -e
 
 hadoop_start
 
-trap "hadoop_stop" INT TERM EXIT
-
-    while [ ! -e "$BASE_PATH/shutdown_please" ]; do
+trap hadoop_stop INT TERM EXIT
+    while [ ! -e "$SHUTDOWN_PLEASE" ]; do
       sleep 10
     done
 
+    hadoop_stop
 trap - INT TERM EXIT
 
-hadoop_stop

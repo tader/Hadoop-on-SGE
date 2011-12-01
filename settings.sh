@@ -6,3 +6,4 @@ export BASE_PATH="$SGE_O_WORKDIR/run"
 export TEMPLATE="$SGE_O_WORKDIR/core-site.xml.template"
 
 export HADOOP_TEMP_DIR="/tmp/hadoop.tmp.$USER"
+export SHUTDOWN_PLEASE="$BASE_PATH/shutdown_please"

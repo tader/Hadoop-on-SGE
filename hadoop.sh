@@ -10,6 +10,10 @@ export HADOOP_PID_DIR="$CONF/pids"
 export HADOOP_MASTERS="$CONF/masters"
 export HADOOP_SLAVES="$CONF/slaves"
 
+if [ -e "$SHUTDOWN_PLEASE" ]; do
+    rm -f "$SHUTDOWN_PLEASE"
+done
+
 function generate_config() {
     # Populate CONF for this job
     if [ ! -d $CONF           ]; then mkdir -p $CONF;           fi
