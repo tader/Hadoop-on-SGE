@@ -72,7 +72,7 @@ function hadoop_start_slave() {
 }
 
 function hadoop_really_start_slave() {
-	$HADOOP_HOME/bin/hadoop --config $CONF datanode             & echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
+	$HADOOP_HOME/bin/hadoop --config $CONF datanode -Ddfs.datanode.hostname=$HOSTNAME & echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
 	$HADOOP_HOME/bin/hadoop --config $CONF tasktracker          & echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
 }
 
