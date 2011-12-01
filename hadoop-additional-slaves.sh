@@ -2,6 +2,7 @@
 #$ -cwd
 #$ -N "Hadoop Slaves"
 #$ -t 1-13
+#$ -l h_rt=24:00:00
 
 set -e
 

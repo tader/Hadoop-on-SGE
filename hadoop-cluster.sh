@@ -2,6 +2,7 @@
 #$ -cwd
 #$ -N Hadoop
 #$ -t 1-21
+#$ -l h_rt=24:00:00
 
 set -e
 
