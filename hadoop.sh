@@ -60,9 +60,14 @@ function hadoop_start_master() {
 }
 
 function hadoop_really_start_master() {
-	$HADOOP_HOME/bin/hadoop --config $CONF namenode             & echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
-	$HADOOP_HOME/bin/hadoop --config $CONF secondarynamenode    & echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
-	$HADOOP_HOME/bin/hadoop --config $CONF jobtracker           & echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
+	$HADOOP_HOME/bin/hadoop --config $CONF namenode &
+    echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
+
+	$HADOOP_HOME/bin/hadoop --config $CONF secondarynamenode & 
+    echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
+
+	$HADOOP_HOME/bin/hadoop --config $CONF jobtracker & 
+    echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
 }
 
 function hadoop_start_slave() {
@@ -72,8 +77,11 @@ function hadoop_start_slave() {
 }
 
 function hadoop_really_start_slave() {
-	$HADOOP_HOME/bin/hadoop --config $CONF datanode -Ddfs.datanode.hostname=$HOSTNAME & echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
-	$HADOOP_HOME/bin/hadoop --config $CONF tasktracker          & echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
+	$HADOOP_HOME/bin/hadoop --config $CONF datanode -Ddfs.datanode.hostname=$HOSTNAME & 
+    echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
+
+	$HADOOP_HOME/bin/hadoop --config $CONF tasktracker &
+    echo $! >>"$BASE_PATH/pids_$JOB_ID.$SGE_TASK_ID"
 }
 
 hadoop_start() {
